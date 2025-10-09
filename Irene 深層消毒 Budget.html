@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>新歌預算表單（MV / 社群 / 廣告 / 活動 / 電台）</title>
+  <style>
+    :root{
+      --bg:#0f1220;
+      --panel:#161a2e;
+      --panel-2:#1b2140;
+      --text:#e7e9f4;
+      --muted:#a9b0c7;
+      --brand:#6aa0ff;
+      --accent:#7ee787;
+      --danger:#ff6b6b;
+      --warn:#ffd166;
+      --input:#0f152b;
+      --border:#2a335b;
+      --shadow: 0 8px 24px rgba(0,0,0,0.3);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      background: radial-gradient(1200px 600px at 20% -10%, #1b2350, transparent),
+                  radial-gradient(900px 700px at 120% 20%, #0f2750, transparent),
+                  var(--bg);
+      color:var(--text);
+      font: 15px/1.35 "Inter", system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      padding: 16px;
+    }
+    header{
+      display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;
+      margin: 4px auto 16px;
+      max-width: 1100px;
+    }
+    header h1{
+      font-size: clamp(18px, 3.2vw, 26px);
+      margin:0;
+      letter-spacing: .3px;
+    }
+    .toolbar{
+      display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    }
+    .pill{
+      background:linear-gradient(180deg, #20284d, #171d3d);
+      border:1px solid var(--border);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius: 12px;
+      display:flex;gap:8px;align-items:center;
+      min-height:42px;
+      box-shadow: var(--shadow);
+    }
+    .pill label{font-size:12px;color:var(--muted)}
+    .pill strong{color:var(--text)}
+    .currency-tag{
+      background:#0f1937;border:1px solid var(--border);padding:6px 10px;border-radius:10px;color:#cfe3ff;
+      font-weight:600;
+    }
+    .container{
+      max-width:1100px;
+      margin:0 auto;
+      display:grid;
+      gap:16px;
+    }
+    .card{
+      background: linear-gradient(180deg, var(--panel), var(--panel-2));
+      border:1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .card header{
+      padding:12px 14px;
+      border-bottom:1px solid var(--border);
+      display:flex;align-items:center;justify-content:space-between;gap:8px;
+      margin:0;
+      max-width:unset;
+    }
+    .card header h2{
+      margin:0;font-size:16px;letter-spacing:.2px
+    }
+    .totals{
+      padding:10px 12px;
+      display:flex;flex-wrap:wrap;gap:8px;align-items:center;
+    }
+    .chip{
+      background:#0f1937;border:1px solid var(--border);padding:6px 10px;border-radius:999px;
+      color:#cfe3ff;font-size:12px
+    }
+    .chip.accent{background:#0f2a1a;color:#b6f3c6;border-color:#294f3a}
+    .chip.warn{background:#2b2108;color:#ffe9a6;border-color:#4a3a10}
+    .chip.danger{background:#2b0f13;color:#ffc1c7;border-color:#4a1a21}
+    .table{
+      width:100%;
+      border-collapse:separate;
+      border-spacing:0;
+    }
+    .thead, .row{
+      display:grid;
+      grid-template-columns: 28px 1.25fr 0.6fr 0.7fr 0.9fr 1.05fr 0.9fr;
+      gap:8px;
+      padding:10px 12px;
+      border-bottom:1px dashed var(--border);
+      align-items:center;
+    }
+    .thead{
+      position:sticky;top:0;background: linear-gradient(180deg, #121735, #141a3a);
+      z-index:1;font-weight:600;color:#cbd6ff;
+      border-bottom:1px solid var(--border);
+    }
+    .row:nth-child(even){background:rgba(255,255,255,0.02)}
+    .row input[type="text"], .row input[type="number"], .row select{
+      width:100%;
+      padding:10px 10px;
+      background:var(--input);
+      border:1px solid var(--border);
+      color:var(--text);
+      border-radius:10px;
+      outline:none;
+    }
+    .row input::placeholder{color:#6e78a6}
+    .row .money{
+      text-align:right;
+      font-variant-numeric: tabular-nums;
+    }
+    .row .tbc{
+      display:flex;align-items:center;justify-content:center
+    }
+    .row .tbc input[type="checkbox"]{
+      width:18px;height:18px;accent-color:#7aa8ff
+    }
+    .section-footer{
+      display:flex;flex-wrap:wrap;justify-content:space-between;padding:10px 12px;gap:8px
+    }
+    .btn{
+      background:#1b2450;color:#eaf1ff;border:1px solid var(--border);
+      padding:10px 12px;border-radius:10px;cursor:pointer
+    }
+    .btn:hover{filter:brightness(1.08)}
+    .btn.primary{background:linear-gradient(180deg, #2a63ff, #1c4fe0);border-color:#2451d1}
+    .btn.danger{background:linear-gradient(180deg, #ff6b6b, #e65050);border-color:#c63e3e}
+    .btn.ghost{background:transparent}
+    .summary{
+      display:grid;gap:10px;padding:12px;border-top:1px solid var(--border)
+    }
+    .summary .line{
+      display:flex;justify-content:space-between;align-items:center;
+      font-variant-numeric: tabular-nums;
+    }
+    .summary .line strong{font-size:18px}
+    .grand{
+      font-size:20px;font-weight:800;color:var(--accent)
+    }
+    .hint{
+      color:var(--muted);font-size:12px;margin-top:6px
+    }
+    .category-tag{
+      padding:3px 8px;border-radius:999px;border:1px solid var(--border);background:#101737;color:#cfe3ff;font-size:12px
+    }
+    .sticky-footer{
+      position:sticky;bottom:0;z-index:10;
+      background: linear-gradient(180deg, rgba(15,18,32,0), var(--bg) 40%);
+      padding-top:10px;margin-top:6px
+    }
+    .grid-2{
+      display:grid;grid-template-columns:1fr 1fr;gap:16px
+    }
+    .row-actions{
+      display:flex;gap:6px;justify-content:flex-end
+    }
+    .drag-handle{
+      cursor:grab;
+      user-select:none;
+      text-align:center;
+      color:#9fb2ff;
+      font-size:18px;
+      line-height:1;
+    }
+    .dragging{
+      opacity:.6;
+      outline:2px dashed #6aa0ff;
+    }
+    @media (max-width: 1000px){
+      .thead, .row{
+        grid-template-columns: 28px 1.2fr 0.6fr 0.7fr 0.9fr 1.05fr 0.9fr;
+      }
+    }
+    @media (max-width: 760px){
+      .thead, .row{
+        grid-template-columns: 26px 1.2fr 0.6fr 0.7fr 0.9fr 0.9fr;
+      }
+      .thead .col-notes, .row .col-notes{ display:none; }
+    }
+    .sr-only{
+      position:absolute !important; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0,0,0,0); white-space:nowrap; border:0;
+    }
+    input[type="file"]{display:none}
+    .file-label{
+      display:inline-flex;align-items:center;gap:8px;padding:10px 12px;border:1px dashed var(--border);border-radius:10px;background:#11183a;color:#cfe3ff;cursor:pointer
+    }
+    .file-label:hover{filter:brightness(1.05)}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Irene 深層消毒 預算表</h1>
+    <div class="toolbar">
+      <div class="pill" aria-live="polite">
+        <span class="currency-tag" title="幣別">HKD</span>
+        <span><label>包含 TBC：</label><strong id="tbcStateLabel">否</strong></span>
+      </div>
+      <button class="btn" id="toggleTbc">切換是否計入 TBC</button>
+      <button class="btn" id="downloadCsv">下載 CSV</button>
+      <label class="file-label" for="uploadCsv">上傳/匯入 CSV</label>
+      <input id="uploadCsv" type="file" accept=".csv,text/csv" />
+    </div>
+  </header>
+
+  <div class="container" id="app"></div>
+
+  <div class="sticky-footer">
+    <div class="container">
+      <div class="card">
+        <header>
+          <h2>總結</h2>
+          <span class="category-tag">幣別：HKD</span>
+        </header>
+        <div class="summary" id="grandSummary">
+          <div class="line"><span>MV 小計</span><strong id="sum-mv">HKD 0</strong></div>
+          <div class="line"><span>Social Media 小計</span><strong id="sum-social">HKD 0</strong></div>
+          <div class="line"><span>Digital Ads 小計</span><strong id="sum-ads">HKD 0</strong></div>
+          <div class="line"><span>Event / Misc 小計</span><strong id="sum-event">HKD 0</strong></div>
+          <div class="line"><span>Radio 小計</span><strong id="sum-radio">HKD 0</strong></div>
+          <div class="line grand"><span>總金額</span><strong id="sum-grand">HKD 0</strong></div>
+          <div class="hint">說明：勾選 TBC 代表「暫定」，預設不計入總額（可用上方按鈕切換是否計入）。支援拖曳排序、刪除行與 CSV 匯入/匯出。</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <template id="section-template">
+    <div class="card section">
+      <header>
+        <h2 class="title"></h2>
+        <div class="totals">
+          <span class="chip">項目數：<span class="count">0</span></span>
+          <span class="chip accent">小計：<span class="subtotal">HKD 0</span></span>
+          <span class="chip warn">TBC：<span class="tbc-count">0</span></span>
+        </div>
+      </header>
+      <div class="table">
+        <div class="thead">
+          <div class="sr-only">TBC</div>
+          <div>項目</div>
+          <div>數量</div>
+          <div>單價（HKD）</div>
+          <div>小計（HKD）</div>
+          <div class="col-notes">備註</div>
+          <div>操作</div>
+        </div>
+        <div class="rows"></div>
+        <div class="section-footer">
+          <div>
+            <button class="btn ghost add-row">新增一行</button>
+            <button class="btn ghost add-tbc">新增 TBC</button>
+          </div>
+          <div>
+            <button class="btn" data-sort="name-asc">名稱 A→Z</button>
+            <button class="btn" data-sort="name-desc">名稱 Z→A</button>
+            <button class="btn" data-sort="total-desc">金額高→低</button>
+            <button class="btn" data-sort="total-asc">金額低→高</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </template>
+
+  <template id="row-template">
+    <div class="row" draggable="true">
+      <div class="tbc">
+        <span class="drag-handle" title="拖曳排序">⋮⋮</span>
+        <input type="checkbox" class="input-tbc" aria-label="TBC" title="TBC（預設不計入總額）">
+      </div>
+      <input type="text" class="input-name" placeholder="項目名稱" />
+      <input type="number" class="input-qty" min="0" step="1" value="1" />
+      <input type="number" class="input-unit money" min="0" step="1" value="0" />
+      <div class="money cell-total">0</div>
+      <input type="text" class="input-notes col-notes" placeholder="備註（選填）" />
+      <div class="row-actions">
+        <button class="btn danger btn-delete" title="刪除此行">刪除</button>
+      </div>
+    </div>
+  </template>
+
+  <script>
+    // Currency
+    const HKD = (n) => 'HKD ' + Number(n || 0).toLocaleString('en-US', {maximumFractionDigits: 0});
+
+    // Initial data
+    const initialData = [
+      {
+        key: 'mv',
+        title: 'MV Budget',
+        items: [
+          { name: 'Cola', qty: 1, unit: 80000, tbc: false, notes: '' },
+          { name: 'Side Cast - Boyfriend - Stylist', qty: 1, unit: 2000, tbc: false, notes: 'per Set' },
+          { name: 'Side Cast - Boyfriend - Make up & Hair', qty: 1, unit: 5000, tbc: false },
+          { name: 'Side Cast - Boyfriend - Cast', qty: 1, unit: 9000, tbc: false },
+          { name: 'Side Cast - Girlfriend - Stylist', qty: 1, unit: 2000, tbc: false, notes: 'per Set' },
+          { name: 'Side Cast - Girlfriend - Make up & Hair', qty: 1, unit: 5000, tbc: false },
+          { name: 'Side Cast - Girlfriend - Cast', qty: 1, unit: 9000, tbc: false },
+          { name: 'Irene - Stylist', qty: 1, unit: 15000, tbc: false, notes: '2-3 Sets' },
+          { name: 'Irene - Make up', qty: 1, unit: 6500, tbc: false, notes: '10hrs' },
+          { name: 'Irene - Hair', qty: 1, unit: 4000, tbc: false, notes: '10hrs' },
+          { name: 'Cover Art with Logo', qty: 1, unit: 3000, tbc: false },
+          { name: 'Making Off', qty: 1, unit: 3000, tbc: false },
+          { name: 'Transport', qty: 1, unit: 2000, tbc: false },
+        ],
+      },
+      {
+        key: 'social',
+        title: 'Social Media',
+        items: [
+          { name: 'Chelsea', qty: 1, unit: 0, tbc: true },
+          { name: 'Media Page', qty: 1, unit: 0, tbc: true },
+          { name: 'Influencer Collab', qty: 1, unit: 0, tbc: true },
+          { name: 'Medley', qty: 1, unit: 0, tbc: true },
+          { name: 'Gareth Remix', qty: 1, unit: 0, tbc: true },
+          { name: 'Shooting', qty: 1, unit: 0, tbc: true },
+        ],
+      },
+      {
+        key: 'ads',
+        title: 'Digital Ads',
+        items: [
+          { name: 'Meta Ads', qty: 1, unit: 5000, tbc: false },
+          { name: 'YouTube Ads', qty: 1, unit: 10000, tbc: false },
+        ],
+      },
+      {
+        key: 'event',
+        title: 'Event or Misc',
+        items: [
+          { name: 'Make up', qty: 1, unit: 4500, tbc: false },
+          { name: 'Stylist', qty: 1, unit: 5000, tbc: false },
+          { name: 'Transport', qty: 1, unit: 2000, tbc: false },
+        ],
+      },
+      {
+        key: 'radio',
+        title: 'Radio',
+        items: [],
+      },
+    ];
+
+    // State
+    let includeTBC = false; // default exclude TBC
+    const state = JSON.parse(JSON.stringify(initialData));
+
+    // DOM helpers
+    const $ = (sel, root=document) => root.querySelector(sel);
+    const $$ = (sel, root=document) => Array.from(root.querySelectorAll(sel));
+
+    const app = $('#app');
+    const sectionTpl = $('#section-template');
+    const rowTpl = $('#row-template');
+
+    function calcLine(it){
+      return (Number(it.qty)||0) * (Number(it.unit)||0);
+    }
+    function calcSectionSubtotal(section){
+      return section.items.reduce((sum, it) => {
+        const line = calcLine(it);
+        if (it.tbc && !includeTBC) return sum;
+        return sum + line;
+      }, 0);
+    }
+    function sectionByKey(key){ return state.find(s => s.key === key); }
+
+    function render(){
+      app.innerHTML = '';
+      state.forEach(section => {
+        const node = sectionTpl.content.firstElementChild.cloneNode(true);
+        $('.title', node).textContent = section.title;
+        const rowsEl = $('.rows', node);
+
+        section.items.forEach((it, idx) => {
+          const r = rowTpl.content.firstElementChild.cloneNode(true);
+          r.dataset.index = idx;
+
+          const tbc = $('.input-tbc', r);
+          const name = $('.input-name', r);
+          const qty = $('.input-qty', r);
+          const unit = $('.input-unit', r);
+          const total = $('.cell-total', r);
+          const notes = $('.input-notes', r);
+          const delBtn = $('.btn-delete', r);
+
+          tbc.checked = !!it.tbc;
+          name.value = it.name || '';
+          qty.value = it.qty ?? 1;
+          unit.value = it.unit ?? 0;
+          notes.value = it.notes || '';
+
+          function recompute(){
+            it.tbc = tbc.checked;
+            it.name = name.value;
+            it.qty = Number(qty.value)||0;
+            it.unit = Number(unit.value)||0;
+            it.notes = notes.value;
+            const line = calcLine(it);
+            total.textContent = (it.tbc && !includeTBC) ? '—' : Number(line).toLocaleString('en-US');
+            updateSectionHeader(node, section);
+            updateGrand();
+          }
+          [tbc, name, qty, unit, notes].forEach(el => {
+            el.addEventListener('input', recompute);
+            el.addEventListener('change', recompute);
+          });
+
+          delBtn.addEventListener('click', () => {
+            const i = Number(r.dataset.index);
+            section.items.splice(i, 1);
+            render();
+          });
+
+          // Drag & drop sorting
+          enableDrag(r, section, rowsEl);
+
+          recompute();
+          rowsEl.appendChild(r);
+        });
+
+        // Footer actions
+        $('.add-row', node).addEventListener('click', () => {
+          section.items.push({ name: '', qty: 1, unit: 0, tbc: false, notes: '' });
+          render();
+        });
+        $('.add-tbc', node).addEventListener('click', () => {
+          section.items.push({ name: 'TBC 項目', qty: 1, unit: 0, tbc: true, notes: '' });
+          render();
+        });
+
+        // Sorting buttons
+        $$('.section-footer .btn', node).forEach(btn => {
+          const type = btn.getAttribute('data-sort');
+          if (!type) return;
+          btn.addEventListener('click', () => {
+            sortSection(section, type);
+            render();
+          });
+        });
+
+        updateSectionHeader(node, section);
+        app.appendChild(node);
+      });
+
+      $('#tbcStateLabel').textContent = includeTBC ? '是' : '否';
+      updateGrand();
+    }
+
+    function updateSectionHeader(node, section){
+      const subtotal = calcSectionSubtotal(section);
+      $('.subtotal', node).textContent = HKD(subtotal);
+      $('.count', node).textContent = section.items.length;
+      $('.tbc-count', node).textContent = section.items.filter(x => x.tbc).length;
+      // refresh totals display in case includeTBC changed
+      $$('.row', node).forEach((r, i) => {
+        const it = section.items[i];
+        if (!it) return;
+        const line = calcLine(it);
+        $('.cell-total', r).textContent = (it.tbc && !includeTBC) ? '—' : Number(line).toLocaleString('en-US');
+      });
+    }
+
+    function updateGrand(){
+      const mv = calcSectionSubtotal(sectionByKey('mv'));
+      const social = calcSectionSubtotal(sectionByKey('social'));
+      const ads = calcSectionSubtotal(sectionByKey('ads'));
+      const event = calcSectionSubtotal(sectionByKey('event'));
+      const radio = calcSectionSubtotal(sectionByKey('radio'));
+      $('#sum-mv').textContent = HKD(mv);
+      $('#sum-social').textContent = HKD(social);
+      $('#sum-ads').textContent = HKD(ads);
+      $('#sum-event').textContent = HKD(event);
+      $('#sum-radio').textContent = HKD(radio);
+      $('#sum-grand').textContent = HKD(mv + social + ads + event + radio);
+    }
+
+    function sortSection(section, type){
+      const byNameAsc = (a,b) => (a.name||'').localeCompare(b.name||'', 'zh-Hant', {sensitivity:'base'});
+      const byTotalAsc = (a,b) => calcLine(a) - calcLine(b);
+      switch(type){
+        case 'name-asc': section.items.sort(byNameAsc); break;
+        case 'name-desc': section.items.sort((a,b)=>byNameAsc(b,a)); break;
+        case 'total-asc': section.items.sort(byTotalAsc); break;
+        case 'total-desc': section.items.sort((a,b)=>byTotalAsc(b,a)); break;
+      }
+    }
+
+    // Drag & drop reordering within a section
+    function enableDrag(rowEl, section, container){
+      const handle = $('.drag-handle', rowEl);
+      let startIndex = null;
+
+      rowEl.addEventListener('dragstart', (e) => {
+        if (e.target !== rowEl) return; // only row itself initiates
+        // Only allow drag when grabbing handle on some browsers
+        // We set draggable on row; hint the user to use handle visually.
+        rowEl.classList.add('dragging');
+        startIndex = Number(rowEl.dataset.index);
+        e.dataTransfer.effectAllowed = 'move';
+      });
+
+      rowEl.addEventListener('dragend', () => {
+        rowEl.classList.remove('dragging');
+      });
+
+      container.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        const dragging = container.querySelector('.dragging');
+        if (!dragging) return;
+
+        const afterEl = getDragAfterElement(container, e.clientY);
+        if (afterEl == null) {
+          container.appendChild(dragging);
+        } else {
+          container.insertBefore(dragging, afterEl);
+        }
+      });
+
+      container.addEventListener('drop', () => {
+        const orderEls = $$('.row', container);
+        const newItems = orderEls.map(el => {
+          const idx = Number(el.dataset.index);
+          return section.items[idx];
+        });
+        section.items = newItems;
+        render();
+      });
+
+      // Improve handle-only dragging on touchpads
+      handle.addEventListener('mousedown', () => {
+        rowEl.draggable = true;
+      });
+      rowEl.addEventListener('mouseup', () => {
+        rowEl.draggable = true;
+      });
+    }
+
+    function getDragAfterElement(container, y){
+      const elements = [...container.querySelectorAll('.row:not(.dragging)')];
+      let closest = {offset: Number.NEGATIVE_INFINITY, element: null};
+      for (const el of elements){
+        const box = el.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          closest = {offset, element: el};
+        }
+      }
+      return closest.element;
+    }
+
+    // Controls
+    $('#toggleTbc').addEventListener('click', () => {
+      includeTBC = !includeTBC;
+      render();
+    });
+
+    // CSV export
+    function toCsv(){
+      const rows = [];
+      rows.push(['Category','TBC','Item','Qty','Unit(HKD)','Line Total(HKD)','Notes']);
+      state.forEach(section => {
+        section.items.forEach(it => {
+          const line = calcLine(it);
+          const included = !(it.tbc && !includeTBC);
+          rows.push([
+            section.title,
+            it.tbc ? 'Yes' : 'No',
+            it.name || '',
+            String(it.qty ?? 0),
+            String(it.unit ?? 0),
+            included ? String(line) : '',
+            it.notes || ''
+          ]);
+        });
+      });
+      rows.push([]);
+      rows.push(['Summary','','','','','']);
+      rows.push(['MV', '', '', '', '', String(calcSectionSubtotal(sectionByKey('mv')))]);
+      rows.push(['Social Media', '', '', '', '', String(calcSectionSubtotal(sectionByKey('social')))]);
+      rows.push(['Digital Ads', '', '', '', '', String(calcSectionSubtotal(sectionByKey('ads')))]);
+      rows.push(['Event or Misc', '', '', '', '', String(calcSectionSubtotal(sectionByKey('event')))]);
+      rows.push(['Radio', '', '', '', '', String(calcSectionSubtotal(sectionByKey('radio')))]);
+      rows.push(['Grand Total', '', '', '', '', String(
+        calcSectionSubtotal(sectionByKey('mv')) +
+        calcSectionSubtotal(sectionByKey('social')) +
+        calcSectionSubtotal(sectionByKey('ads')) +
+        calcSectionSubtotal(sectionByKey('event')) +
+        calcSectionSubtotal(sectionByKey('radio'))
+      )]);
+
+      const csv = rows.map(r => r.map(v => {
+        const s = String(v ?? '');
+        if (s.includes(',') || s.includes('"') || s.includes('\n')) {
+          return `"${s.replace(/"/g,'""')}"`;
+        }
+        return s;
+      }).join(',')).join('\n');
+      return csv;
+    }
+
+    $('#downloadCsv').addEventListener('click', () => {
+      const csv = toCsv();
+      const blob = new Blob([csv], {type: 'text/csv;charset=utf-8;'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      const date = new Date().toISOString().slice(0,10);
+      a.href = url;
+      a.download = `song-budget-${date}.csv`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 0);
+    });
+
+    // CSV import
+    $('#uploadCsv').addEventListener('change', async (e) => {
+      const file = e.target.files?.[0];
+      if (!file) return;
+      const text = await file.text();
+      try {
+        importCsv(text);
+        alert('CSV 匯入成功！');
+      } catch (err){
+        console.error(err);
+        alert('CSV 匯入失敗，請確認欄位格式。需包含表頭：Category,TBC,Item,Qty,Unit(HKD),Line Total(HKD),Notes');
+      } finally {
+        e.target.value = '';
+      }
+    });
+
+    function importCsv(text){
+      // very lightweight CSV parser supporting quotes
+      const rows = parseCSV(text);
+      if (!rows.length) return;
+      // Expect header row
+      const header = rows[0].map(s => s.trim().toLowerCase());
+      const expect = ['category','tbc','item','qty','unit(hkd)','line total(hkd)','notes'];
+      // Allow minimal variations
+      const ok = expect.every(col => header.includes(col));
+      if (!ok) throw new Error('Bad header');
+
+      const idx = Object.fromEntries(expect.map(col => [col, header.indexOf(col)]));
+      // Reset state to empty sections keeping order/titles
+      state.forEach(sec => sec.items = []);
+      // Map title -> section
+      const titleMap = Object.fromEntries(state.map(s => [s.title.toLowerCase(), s]));
+      // Accept also keys
+      const keyMap = Object.fromEntries(state.map(s => [s.key.toLowerCase(), s]));
+
+      for (let i=1;i<rows.length;i++){
+        const r = rows[i];
+        if (!r.length || r.every(v => v.trim() === '')) continue;
+        const catRaw = r[idx['category']]?.trim() || '';
+        const cat = catRaw.toLowerCase();
+        const section = titleMap[cat] || keyMap[cat];
+        if (!section) {
+          // Unknown category -> create a new section
+          state.push({ key: `extra-${Date.now()}-${i}`, title: catRaw || 'Extra', items: [] });
+          continue;
+        }
+        const tbcStr = (r[idx['tbc']] || '').trim().toLowerCase();
+        const tbc = tbcStr === 'yes' || tbcStr === 'true' || tbcStr === '1';
+        const name = r[idx['item']] || '';
+        const qty = Number(r[idx['qty']] || 0) || 0;
+        const unit = Number(r[idx['unit(hkd)']] || 0) || 0;
+        const notes = r[idx['notes']] || '';
+        section.items.push({ name, qty, unit, tbc, notes });
+      }
+      render();
+    }
+
+    function parseCSV(text){
+      const rows = [];
+      let cur = '';
+      let inQuotes = false;
+      let row = [];
+      for (let i=0;i<text.length;i++){
+        const ch = text[i];
+        const next = text[i+1];
+        if (inQuotes){
+          if (ch === '"' && next === '"'){ cur += '"'; i++; }
+          else if (ch === '"'){ inQuotes = false; }
+          else { cur += ch; }
+        } else {
+          if (ch === '"'){ inQuotes = true; }
+          else if (ch === ','){ row.push(cur); cur = ''; }
+          else if (ch === '\r'){ /* skip */ }
+          else if (ch === '\n'){ row.push(cur); rows.push(row); row = []; cur = ''; }
+          else { cur += ch; }
+        }
+      }
+      if (cur.length || row.length) { row.push(cur); rows.push(row); }
+      return rows;
+    }
+
+    // Init
+    render();
+  </script>
+</body>
+</html>
