@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏐 16/11 排球 Fun Game Day 🏐</title>
+    <!-- 引入 Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- 引入 Inter 字體 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f7f6;
+        }
+        .card {
+            background-color: white;
+            border-radius: 0.75rem; /* 圓角 */
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .team-a {
+            background-color: #f0f9ff; /* 淺藍色 */
+            border-left: 5px solid #0ea5e9; /* 藍色邊框 */
+        }
+        .team-b {
+            background-color: #fffbeb; /* 淺黃色 */
+            border-left: 5px solid #f59e0b; /* 黃色邊框 */
+        }
+        .player-tag {
+            background-color: #e0f2fe;
+            color: #0c4a6e;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+        .team-b .player-tag {
+            background-color: #fef3c7;
+            color: #78350f;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 text-gray-800 p-4 md:p-8">
+
+    <div class="max-w-7xl mx-auto">
+        
+        <!-- 頁首 -->
+        <header class="text-center mb-8 p-6 card">
+            <h1 class="text-3xl md:text-4xl font-bold text-sky-700 mb-2">🏐 16/11 (日) 排球 Fun Game Day 🏐</h1>
+            <p class="text-xl text-gray-600">15:00 - 23:00 @ 屯門良田體育館</p>
+            <p class="text-lg text-gray-500 mt-2">場主: Mok</p>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+            <!-- 左欄：規矩 + 參加者 -->
+            <div class="md:col-span-1 space-y-6">
+                <!-- 簡單規矩 -->
+                <div class="card p-6">
+                    <h2 class="text-2xl font-semibold mb-4 border-b pb-2 text-sky-800">基本規矩 (Read Me!)</h2>
+                    <ul class="list-disc list-inside space-y-2 text-gray-700">
+                        <li><strong>禮貌第一：</strong> 唔黑面、唔發脾氣、唔取笑人。</li>
+                        <li><strong>團隊合作：</strong> 盡力做到三傳，唔好放棄。</li>
+                        <li><strong>公平競賽：</strong> 網高 238 (男女網)。</li>
+                        <li><strong>互相幫忙：</strong> 有波帶波，幫手執波。</li>
+                        <li><strong>準時：</strong> 盡量準時，打多啲！</li>
+                        <li><strong>安全至上：</strong> 小心身體，唔好受傷！</li>
+                    </ul>
+                </div>
+
+                <!-- 參加者名單 -->
+                <div class="card p-6">
+                    <h2 class="text-2xl font-semibold mb-4 border-b pb-2 text-sky-800">參加者名單 (26人)</h2>
+                    <div class="max-h-96 overflow-y-auto pr-2">
+                        <ul id="player-list" class="space-y-2">
+                            <!-- 參加者列表將由 JS 動態生成 -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右欄：賽程 + 統計 -->
+            <div class="md:col-span-2 space-y-6">
+
+                <!-- 賽程表 -->
+                <div class="card p-6" id="schedule-container">
+                    <h2 class="text-2xl font-semibold mb-4 border-b pb-2 text-sky-800">🏐 賽程表 (共12場) 🏐</h2>
+                    <p class="mb-4 text-gray-600">此為固定賽程。已根據出席時間、男女比例及連續比賽次數作平衡。</p>
+                    <div id="schedule-output" class="space-y-6">
+                        <!-- 賽程 1 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 1 場</h3><p class="text-sm text-gray-500">15:00 - 15:40</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Winson</span><span class="player-tag">Manho</span><span class="player-tag">Nose</span><span class="player-tag">Mok</span><span class="player-tag">Iris J</span><span class="player-tag">Ting</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Iris G</span><span class="player-tag">Crystal</span><span class="player-tag">Ping A</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 2 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 2 場</h3><p class="text-sm text-gray-500">15:40 - 16:20</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Hojai</span><span class="player-tag">星B</span><span class="player-tag">星C</span><span class="player-tag">Rainbow</span><span class="player-tag">Angel A</span><span class="player-tag">Mok</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Ping B</span><span class="player-tag">Justin</span><span class="player-tag">Angel B</span><span class="player-tag">Iris J</span><span class="player-tag">Ting</span><span class="player-tag">Iris G</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 3 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 3 場</h3><p class="text-sm text-gray-500">16:20 - 17:00</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Winson</span><span class="player-tag">Manho</span><span class="player-tag">Nose</span><span class="player-tag">Jason</span><span class="player-tag">Crystal</span><span class="player-tag">Ping A</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Hojai</span><span class="player-tag">Ping B</span><span class="player-tag">Rainbow</span><span class="player-tag">Angel A</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 4 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 4 場</h3><p class="text-sm text-gray-500">17:00 - 17:40</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">星B</span><span class="player-tag">星C</span><span class="player-tag">Justin</span><span class="player-tag">Lok</span><span class="player-tag">Mok</span><span class="player-tag">Iris J</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Angel B</span><span class="player-tag">Manho</span><span class="player-tag">Winson</span><span class="player-tag">Nose</span><span class="player-tag">Ting</span><span class="player-tag">Iris G</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 5 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 5 場</h3><p class="text-sm text-gray-500">17:40 - 18:20</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">Hojai</span><span class="player-tag">Ping A</span><span class="player-tag">Crystal</span><span class="player-tag">Rainbow</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">星A</span><span class="player-tag">Lok</span><span class="player-tag">Justin</span><span class="player-tag">Angel B</span><span class="player-tag">Mok</span><span class="player-tag">Iris J</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 6 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 6 場</h3><p class="text-sm text-gray-500">18:20 - 19:00</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Manho</span><span class="player-tag">Winson</span><span class="player-tag">星B</span><span class="player-tag">Crystal</span><span class="player-tag">Ting</span><span class="player-tag">Iris G</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">星C</span><span class="player-tag">Ping B</span><span class="player-tag">Justin</span><span class="player-tag">Ping A</span><span class="player-tag">Angel A</span><span class="player-tag">Nose</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 7 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 7 場</h3><p class="text-sm text-gray-500">19:00 - 19:40</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Mok</span><span class="player-tag">Iris J</span><span class="player-tag">Hojai</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Lok</span><span class="player-tag">Jimmy</span><span class="player-tag">King</span><span class="player-tag">Manho</span><span class="player-tag">Winson</span><span class="player-tag">Rainbow</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 8 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 8 場</h3><p class="text-sm text-gray-500">19:40 - 20:20</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Ping B</span><span class="player-tag">星B</span><span class="player-tag">星C</span><span class="player-tag">Nose</span><span class="player-tag">Ping A</span><span class="player-tag">Crystal</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Sherman</span><span class="player-tag">Ham</span><span class="player-tag">Jimmy</span><span class="player-tag">King</span><span class="player-tag">Ting</span><span class="player-tag">Iris G</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 9 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 9 場</h3><p class="text-sm text-gray-500">20:20 - 21:00</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Lok</span><span class="player-tag">Mok</span><span class="player-tag">Iris J</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Manho</span><span class="player-tag">Winson</span><span class="player-tag">Hojai</span><span class="player-tag">Sherman</span><span class="player-tag">Ping A</span><span class="player-tag">Ham</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 10 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 10 場</h3><p class="text-sm text-gray-500">21:00 - 21:40</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">星B</span><span class="player-tag">星C</span><span class="player-tag">Nose</span><span class="player-tag">Jimmy</span><span class="player-tag">Crystal</span><span class="player-tag">Ting</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B (4M2F)</h4><div class="flex flex-wrap gap-2"><span class="player-tag">King</span><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Mok</span><span class="player-tag">Iris G</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 11 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 11 場</h3><p class="text-sm text-gray-500">21:40 - 22:20</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Manho</span><span class="player-tag">Winson</span><span class="player-tag">Hojai</span><span class="player-tag">Iris J</span><span class="player-tag">Ping A</span><span class="player-tag">Chi</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Sherman</span><span class="player-tag">Ham</span><span class="player-tag">Lok</span><span class="player-tag">Crystal</span><span class="player-tag">星B</span><span class="player-tag">星C</span></div></div>
+                            </div>
+                        </div>
+                        <!-- 賽程 12 -->
+                        <div class="mb-4 border border-gray-200 rounded-lg overflow-hidden">
+                            <div class="bg-gray-100 p-3"><h3 class="text-xl font-semibold text-sky-700">第 12 場</h3><p class="text-sm text-gray-500">22:20 - 23:00</p></div>
+                            <div class="flex flex-col md:flex-row">
+                                <div class="w-full md:w-1/2 p-4 team-a"><h4 class="font-bold text-lg mb-2 text-blue-800">Team A</h4><div class="flex flex-wrap gap-2"><span class="player-tag">Jason</span><span class="player-tag">Gary</span><span class="player-tag">星A</span><span class="player-tag">Ting</span><span class="player-tag">Iris G</span><span class="player-tag">Jimmy</span></div></div>
+                                <div class="w-full md:w-1/2 p-4 team-b border-t md:border-t-0 md:border-l border-gray-200"><h4 class="font-bold text-lg mb-2 text-yellow-800">Team B</h4><div class="flex flex-wrap gap-2"><span class="player-tag">King</span><span class="player-tag">Nose</span><span class="player-tag">Manho</span><span class="player-tag">Mok</span><span class="player-tag">Chi</span><span class="player-tag">Winson</span></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 統計 -->
+                <div class="card p-6" id="stats-container">
+                    <h2 class="text-2xl font-semibold mb-4 border-b pb-2 text-sky-800">📊 參與場次統計</h2>
+                    <div id="stats-output" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Mok</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Winson</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Iris J</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Manho</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Hojai</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Ting</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Jason</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Gary</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Iris G</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">星A</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">星B</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">星C</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Crystal</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Ping A</span><span class="text-lg font-bold text-sky-700">6</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Nose</span><span class="text-lg font-bold text-sky-700">5</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Lok</span><span class="text-lg font-bold text-sky-700">5</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Jimmy</span><span class="text-lg font-bold text-sky-700">4</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Rainbow</span><span class="text-lg font-bold text-sky-700">4</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">King</span><span class="text-lg font-bold text-sky-700">4</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Ping B</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Sherman</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Justin</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Ham</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Angel A</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Angel B</span><span class="text-lg font-bold text-sky-700">3</span></div>
+                        <div class="bg-gray-50 p-3 rounded-lg flex justify-between items-center shadow-sm"><span class="font-medium text-gray-900">Chi</span><span class="text-lg font-bold text-sky-700">2</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- 參加者數據 ---
+        const initialPlayers = [
+            { name: "Mok", start: 15, end: 23, gender: "F" },
+            { name: "Winson", start: 15, end: 23, gender: "M" },
+            { name: "Iris J", start: 15, end: 23, gender: "F" },
+            { name: "Manho", start: 15, end: 23, gender: "M" },
+            { name: "Nose", start: 15, end: 23, gender: "M" },
+            { name: "Hojai", start: 15, end: 23, gender: "M" },
+            { name: "Ting", start: 15, end: 23, gender: "F" },
+            { name: "Jason", start: 15, end: 23, gender: "M" },
+            { name: "Gary", start: 15, end: 23, gender: "M" },
+            { name: "Iris G", start: 15, end: 23, gender: "F" },
+            { name: "星A", start: 15, end: 23, gender: "M" },
+            { name: "星B", start: 15, end: 23, gender: "M" },
+            { name: "星C", start: 15, end: 23, gender: "M" },
+            { name: "Crystal", start: 15, end: 23, gender: "F" },
+            { name: "Ping A", start: 15, end: 23, gender: "F" },
+            { name: "Ping B", start: 15, end: 20, gender: "M" },
+            { name: "Sherman", start: 20, end: 23, gender: "M" },
+            { name: "Justin", start: 15, end: 19, gender: "M" },
+            { name: "Jimmy", start: 18.5, end: 23, gender: "M" },
+            { name: "Rainbow", start: 15, end: 20, gender: "F" },
+            { name: "Ham", start: 20, end: 23, gender: "M" },
+            { name: "Chi", start: 21.5, end: 23, gender: "F" },
+            { name: "Angel A", start: 15, end: 19, gender: "F" },
+            { name: "Lok", start: 17, end: 23, gender: "M" },
+            { name: "Angel B", start: 15, end: 18, gender: "M" },
+            { name: "King", start: 18.5, end: 23, gender: "M" }
+        ];
+
+        // --- DOM 元素 ---
+        const playerListEl = document.getElementById("player-list");
+
+        // --- 渲染初始參加者名單 ---
+        function renderPlayerList() {
+            playerListEl.innerHTML = ""; // 清空
+            initialPlayers.forEach(player => {
+                // 轉換時間格式
+                const formatTime = (time) => {
+                    const hour = Math.floor(time);
+                    const minutes = (time % 1) * 60;
+                    return `${String(hour).padStart(2, '0')}:${String(minutes).padStart(2, '0')}`;
+                };
+                const timeString = `${formatTime(player.start)} - ${formatTime(player.end)}`;
+                
+                const li = document.createElement("li");
+                li.className = "flex justify-between items-center p-2 bg-gray-50 rounded";
+                li.innerHTML = `
+                    <span class="font-medium text-gray-800">${player.name}</span>
+                    <span class="text-sm text-gray-500 bg-gray-200 px-2 py-0.5 rounded-full">${timeString}</span>
+                `;
+                playerListEl.appendChild(li);
+            });
+        }
+
+        // --- 初始加載 ---
+        renderPlayerList();
+    </script>
+</body>
+</html>
